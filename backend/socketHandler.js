@@ -1,7 +1,7 @@
 const { Server } = require('socket.io');
 const Message = require('./models/Message'); // Import the Message model
 const Conversation = require('./models/Conversation');
-
+const {redisClient} = require('./config/redisClient');
 const socketHandler = (server) => {
   const io = new Server(server, {
     cors: {
@@ -14,9 +14,13 @@ const socketHandler = (server) => {
     console.log('A user connected');
 
     // Join conversation
-    socket.on('joinConversation', ({ conversationId, userId }) => {
+    socket.on('joinConversation', async ({ conversationId, userId }) => {
       socket.join(conversationId);
       console.log(`User ${userId} joined conversation ${conversationId}`);
+
+      await redisClient.set(`user:${userId}:status`, 'online');
+      console.log(`Set user ${userId} as online in Redis`);
+      
     });
 
     // Send message
