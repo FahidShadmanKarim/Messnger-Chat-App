@@ -8,12 +8,15 @@ const messageRoutes = require('./routes/messageRoutes');
 const conversationRoutes = require('./routes/conversationRoutes');
 const userRoutes = require('./routes/userRoutes');
 const socketHandler = require('./socketHandler');
+const redis = require('redis');
+const { redisClient, connectRedis } = require('./config/redisClient'); // Import Redis client
+
 
 const app = express();
 const server = http.createServer(app);
 
-
 connectDB();
+connectRedis();
 
 app.use(cors());
 app.use(express.json());
