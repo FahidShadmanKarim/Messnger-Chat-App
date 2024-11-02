@@ -3,8 +3,8 @@ const Message = require('./models/Message');
 const Conversation = require('./models/Conversation');
 const { redisClient } = require('./config/redisClient');
 
-const HEARTBEAT_INTERVAL = 10000; // 10 seconds for checking inactive users
-const OFFLINE_TIMEOUT = 30000; // 30 seconds without heartbeat to mark offline
+const HEARTBEAT_INTERVAL = 30000; // 10 seconds for checking inactive users
+const OFFLINE_TIMEOUT = 60000; // 30 seconds without heartbeat to mark offline
 
 const socketHandler = (server) => {
   const io = new Server(server, {
